@@ -1,0 +1,5 @@
+{
+  "name": "Text Comparer",
+  "description": "A side-by-side text comparison tool with syntax highlighting and AI-powered analysis.",
+  "requestFramePermissions": []
+}
