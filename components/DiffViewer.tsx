@@ -3,6 +3,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { DiffLine, DiffType, SupportedLanguage } from '../types';
 import { Copy, Check } from 'lucide-react';
 import Prism from 'prismjs';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-markup'; // html
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-sql';
 
 interface DiffViewerProps {
   originalLines: DiffLine[];
@@ -25,7 +32,7 @@ const CodeLine: React.FC<{ line: DiffLine; language: SupportedLanguage }> = ({ l
 
   const getBgClass = () => {
     switch (line.type) {
-      case DiffType.INSERT: return 'bg-green-900/20'; 
+      case DiffType.INSERT: return 'bg-green-900/20';
       case DiffType.DELETE: return 'bg-red-900/20';
       case DiffType.EMPTY: return 'bg-slate-950/50 opacity-50 diagonal-stripes';
       default: return 'bg-transparent';
@@ -64,7 +71,7 @@ const CodeLine: React.FC<{ line: DiffLine; language: SupportedLanguage }> = ({ l
 
     return (
       <code ref={codeRef} className={`language-${language} !bg-transparent !p-0 !m-0 !text-sm !shadow-none !border-0 !leading-none block font-mono`}>
-         {line.content || ' '}
+        {line.content || ' '}
       </code>
     );
   };
@@ -73,9 +80,9 @@ const CodeLine: React.FC<{ line: DiffLine; language: SupportedLanguage }> = ({ l
     <div className={`flex items-center w-full h-6 ${getBgClass()} hover:bg-slate-800/50 transition-colors duration-75 group relative border-l-[3px] ${getBorderClass()}`}>
       {/* Line Number */}
       <div className="w-12 flex-shrink-0 sticky left-0 z-20 flex items-center justify-end h-full select-none bg-slate-900 border-r border-slate-800/50 text-[10px] text-slate-500 font-mono pr-2">
-         {line.type !== DiffType.EMPTY && (line.originalLineNumber || line.modifiedLineNumber)}
+        {line.type !== DiffType.EMPTY && (line.originalLineNumber || line.modifiedLineNumber)}
       </div>
-      
+
       {/* Content */}
       <div className={`flex-1 px-4 whitespace-pre font-mono text-sm flex items-center h-full ${getTextColor()}`}>
         {renderContent()}
@@ -98,7 +105,7 @@ const CopyButton: React.FC<{ text: string }> = ({ text }) => {
   };
 
   return (
-    <button 
+    <button
       onClick={handleCopy}
       className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded transition-colors"
       title="Copy to clipboard"
@@ -140,16 +147,16 @@ const DiffViewer: React.FC<DiffViewerProps> = ({ originalLines, modifiedLines, l
       {/* Version 1 (Left) */}
       <div className="flex flex-col h-full min-w-0 border-r border-slate-800 bg-slate-900 relative overflow-hidden">
         <div className="bg-slate-950 px-4 py-2 text-xs font-medium text-slate-500 uppercase tracking-wider border-b border-slate-800 flex justify-between items-center flex-shrink-0 h-10 z-30">
-            <span>Version 1</span>
-            <CopyButton text={originalText} />
+          <span>Version 1</span>
+          <CopyButton text={originalText} />
         </div>
-        <div 
+        <div
           ref={leftScrollRef}
           onScroll={handleLeftScroll}
           className="flex-1 overflow-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"
         >
           {/* w-max ensures the container grows to fit long lines, triggering horizontal scroll on parent */}
-          <div className="min-w-full w-max pb-8"> 
+          <div className="min-w-full w-max pb-8">
             {originalLines.map((line, idx) => (
               <CodeLine key={`orig-${idx}`} line={line} language={language} />
             ))}
@@ -160,10 +167,10 @@ const DiffViewer: React.FC<DiffViewerProps> = ({ originalLines, modifiedLines, l
       {/* Version 2 (Right) */}
       <div className="flex flex-col h-full min-w-0 bg-slate-900 relative overflow-hidden">
         <div className="bg-slate-950 px-4 py-2 text-xs font-medium text-slate-500 uppercase tracking-wider border-b border-slate-800 flex justify-between items-center flex-shrink-0 h-10 z-30">
-            <span>Version 2</span>
-            <CopyButton text={modifiedText} />
+          <span>Version 2</span>
+          <CopyButton text={modifiedText} />
         </div>
-        <div 
+        <div
           ref={rightScrollRef}
           onScroll={handleRightScroll}
           className="flex-1 overflow-auto scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent"

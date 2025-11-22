@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'prismjs/themes/prism-tomorrow.css';
+import './index.css';
 import App from './App';
 
 const rootElement = document.getElementById('root');
